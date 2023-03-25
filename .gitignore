@@ -25,7 +25,6 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-cinnab-env/
 MANIFEST
 
 # PyInstaller
@@ -110,6 +109,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+cinnab-env/
+
 
 # Spyder project settings
 .spyderproject
