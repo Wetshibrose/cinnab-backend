@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+# models
+from .models import Token
+
+class TokenAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Token, TokenAdmin)
