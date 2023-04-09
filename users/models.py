@@ -53,6 +53,7 @@ class GenderType(models.Model):
     name = models.CharField(max_length=100)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(null=True)
 
     def __str__(self)->str:
         return self.name
@@ -62,7 +63,7 @@ class GenderType(models.Model):
 class User(AbstractUser):
     class Meta:
         verbose_name_plural = "users"
-        ordering = ["username"]
+        ordering = ["email"]
 
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
     email = models.EmailField(max_length=100, unique=True)
@@ -100,3 +101,6 @@ class ProfilePicture(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(null=True)
+
+    
