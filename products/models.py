@@ -3,12 +3,15 @@ from uuid import uuid4
 from django.contrib.gis.db import models
 from django.utils import timezone
 
+# models
+from categories.models import Category
+
 class Product(models.Model):
     class Meta:
         # db_table = "p_products" env file
         default_related_name = "products"
         indexes = [
-            models.Index(fields=["name", "rating",]),
+            models.Index(fields=["id", "name", "rating",]),
             # models.Index(fields=["category", "brands"]),
         ]
         ordering = ["name"]
@@ -31,7 +34,7 @@ class Product(models.Model):
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     color = models.CharField(max_length=255, null=True)
     # brands = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
-    # category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     # supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True)
     # tax = models.ForeignKey(Tax, on_delete=models.SET_NULL, null=True)
     # business = models.ForeignKey(Business, on_delete=models.SET_NULL)
