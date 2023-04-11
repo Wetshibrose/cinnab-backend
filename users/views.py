@@ -83,6 +83,8 @@ class CreateUserAPIView(APIView):
         new_user:User = User.objects.create_user(
             phone_number=data["phone_number"],
             username= make_username(value=data["email"]),
+
+
             email = data.get("email"),
             gender = data.get("gender"),
             first_name = data.get("first_name"),
