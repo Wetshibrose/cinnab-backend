@@ -83,12 +83,12 @@ class CreateUserAPIView(APIView):
         new_user:User = User.objects.create_user(
             phone_number=data["phone_number"],
             username= make_username(value=data["email"]),
-            email = data["email"],
-            gender = data["gender"],
-            first_name = data["first_name"],
-            last_name = data["last_name"],
-            date_of_birth = datetime.strptime(data["date_of_birth"], "%Y-%m-%d").date() if data["date_of_birth"] else None,
-            password=make_password(password=data["password"])
+            email = data.get("email"),
+            gender = data.get("gender"),
+            first_name = data.get("first_name"),
+            last_name = data.get("last_name"),
+            date_of_birth = datetime.strptime(data.get("date_of_birth"), "%Y-%m-%d").date() if data["date_of_birth"] else None,
+            password=make_password(password=data.get("password"))
         )
         new_user.save()
 
@@ -100,10 +100,14 @@ class EditUserAPIView(APIView):
     authentication_classes = [JWTAuthentication]
     
     def post(self, request:Request, *args, **kwargs):
-        pass
+        response = jwt_authentication(req=request)
+        if response is Response:
+            return response
 
     def put(self, request:Request, *args, **kwargs):
-        pass
+        response = jwt_authentication(req=request)
+        if response is Response:
+            return response
 
 
 class DeleteUserAPIView(APIView):
