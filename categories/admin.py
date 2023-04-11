@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+# models
+from .models import Category
+
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Category, CategoryAdmin)
