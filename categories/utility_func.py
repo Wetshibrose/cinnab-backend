@@ -5,7 +5,7 @@ from rest_framework import status
 # token classes
 from rest_framework_simplejwt.tokens import AccessToken
 # models
-from .models import User
+from users.models import User
 
 # serializers
 from .serializers import (
