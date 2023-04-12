@@ -19,12 +19,12 @@ class SuccessMessageSerializer(serializers.Serializer):
 class CategoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ("name", "slug", "description", "parent", "related_categories")
+        fields = ("id", "name", "description", "parent", "related_categories")
 
 class CreateCategorySerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True)
     description = serializers.CharField(required=False, allow_null=True)
-    meta_keyword = serializers.CharField(required=False, allow_null=True)
+    meta_keywords = serializers.CharField(required=False, allow_null=True)
     parent = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.filter(is_deleted=False),
         required=False,
@@ -34,19 +34,21 @@ class CreateCategorySerializer(serializers.ModelSerializer):
         queryset = Category.objects.filter(is_deleted=False),
         many=True,
         required=False,
-        allow_nul=True
+        allow_null=True
     )
      
     class Meta:
         model = Category
-        fields = ("name", "description", "meta_keywords", "parent", "related_categories", "is_active", "is_featured")
-
+        fields = ("id", "name", "description", "meta_keywords", "parent", "related_categories", "is_active", "is_featured")
+        read_only_fields = ("id",)
     
     def create(self, validated_data):
         related_categories = validated_data.pop("related_categories", [])
         new_category:Category = Category.objects.create(**validated_data)
         new_category.related_categories.set(related_categories)
-        return new_category
+
+        data = super().to_representation(new_category)
+        return data
 
     def update(self, instance, validated_data):
         related_categories = validated_data.pop("related_categories", [])

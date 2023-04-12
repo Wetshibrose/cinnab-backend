@@ -72,7 +72,7 @@ class CreateCategoryAPIView(APIView):
             return response
         
         serializer = CreateCategorySerializer(data=request.data)
-        if not serializer.is_valid():
+        if not serializer.is_valid(raise_exception=True):
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
         
         serializer.save()
