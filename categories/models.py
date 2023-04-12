@@ -7,7 +7,7 @@ class Category(models.Model):
     class Meta:
         default_related_name = "categories"
         indexes = [
-            models.Index(fields=["id", "slug", "parent"]),
+            models.Index(fields=["id", "parent"]),
         ]
         ordering = ["name"]
         verbose_name = "category"
@@ -16,9 +16,9 @@ class Category(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    meta_keywords = models.CharField(max_length=255, default="", blank=True)
+    meta_keywords = models.CharField(max_length=255, default="", blank=True, null=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
-    related_categories = models.ManyToManyField('self')
+    related_categories = models.ManyToManyField('self', blank=True)
     is_active = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
