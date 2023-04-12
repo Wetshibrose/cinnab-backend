@@ -7,12 +7,12 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 
-# urls
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("users/", include("users.urls")),
     path("authentication/", include("authentication.urls")),
+    path("categories/", include("categories.urls")),
+    path("users/", include("users.urls")),
     path("theme/", include("theme.urls")),
 ]
