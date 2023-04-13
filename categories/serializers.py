@@ -19,7 +19,13 @@ class SuccessMessageSerializer(serializers.Serializer):
 class CategoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ("id", "name", "description", "parent", "related_categories")
+        fields = (
+            "id", 
+            "name", 
+            "description", 
+            "parent", 
+            "related_categories",
+        )
 
 class CreateCategorySerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True)
@@ -39,7 +45,16 @@ class CreateCategorySerializer(serializers.ModelSerializer):
      
     class Meta:
         model = Category
-        fields = ("id", "name", "description", "meta_keywords", "parent", "related_categories", "is_active", "is_featured")
+        fields = (
+            "id", 
+            "name", 
+            "description", 
+            "meta_keywords", 
+            "parent", 
+            "related_categories", 
+            "is_active", 
+            "is_featured"
+        )
         read_only_fields = ("id",)
     
     def create(self, validated_data):
