@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+# models
+from .models import (
+    Product, 
+    ProductImage,
+    ProductVariant
+)
+
+class ProductAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Product, ProductAdmin)

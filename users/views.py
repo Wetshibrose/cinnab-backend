@@ -34,7 +34,9 @@ from .utility_func import make_username, jwt_authentication
 # django
 from django.contrib.auth.hashers import make_password
 
-############################## User #####################################
+'''
+    => USER VIEWS SECTION
+'''
 class RetrieveUsersAPIView(APIView):
     # permission_classes = [AllowAny]
     authentication_classes = [JWTAuthentication]
@@ -135,7 +137,9 @@ class DeleteUserAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
         
 
-############################## Gender #####################################
+'''
+    => GENDER VIEWS SECTION
+'''
 class RetrieveGenderTypesAPIView(APIView):
     # permission_classes = [AllowAny]
     authentication_classes = [JWTAuthentication]
@@ -233,7 +237,9 @@ class DeleteGenderTypeAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
-############################## Pictures #####################################
+'''
+    => USER PROFILE PICTURE SECTION
+'''
 
 class RetrieveProfilePicturesAPIView(APIView):
     authentication_classes = [JWTAuthentication]
