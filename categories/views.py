@@ -26,6 +26,10 @@ from .base_types import ErrorMessageResponse, SuccessMessageResponse
 # utility functions
 from .utility_func import jwt_authentication
 
+
+'''
+    => CATEGORY VIEWS SECTION
+'''
 class RetrieveCategoriesAPIView(APIView):
     authentication_classes = [JWTAuthentication]
 
@@ -45,7 +49,7 @@ class RetrieveCategoriesAPIView(APIView):
 class RetrieveCategoryAPIView(APIView):
     authentication_classes = [JWTAuthentication]
 
-    def get(self, request:Request, category_id, *args, **kwargs):
+    def get(self, request:Request, category_id:str, *args, **kwargs):
         response = jwt_authentication(req=request)
         if response is Response:
             return response
@@ -73,7 +77,7 @@ class CreateCategoryAPIView(APIView):
         
         serializer = CreateCategorySerializer(data=request.data)
         if not serializer.is_valid(raise_exception=True):
-            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
