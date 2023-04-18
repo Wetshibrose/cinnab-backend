@@ -3,13 +3,16 @@ from uuid import uuid4
 from django.contrib.gis.db import models
 from django.utils import timezone
 
+# models
+from businesses.models import Business
+
 class Category(models.Model):
     class Meta:
         default_related_name = "categories"
         indexes = [
-            models.Index(fields=["id", "parent"]),
+            models.Index(fields=["id", "name", "parent"]),
         ]
-        ordering = ["name"]
+        ordering = ["name",]
         verbose_name = "category"
         verbose_name_plural = "categories"
 
@@ -17,6 +20,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     meta_keywords = models.CharField(max_length=255, default="", blank=True, null=True)
+    business = models.ForeignKey(Business, on_delete=models.SET_NULL, null=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
     related_categories = models.ManyToManyField('self', blank=True)
     is_active = models.BooleanField(default=True)
