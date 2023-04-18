@@ -4,6 +4,8 @@ from django.contrib.gis.db import models
 from django.utils import timezone
 
 # models
+from brands.models import Brand
+from businesses.models import Business
 from categories.models import Category
 
 class Product(models.Model):
@@ -34,18 +36,14 @@ class Product(models.Model):
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     color = models.CharField(max_length=255, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    # brands = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
     # supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True)
     # tax = models.ForeignKey(Tax, on_delete=models.SET_NULL, null=True)
-    # business = models.ForeignKey(Business, on_delete=models.SET_NULL)
     # sku = models.ForeignKey(Unit, null=True)
     # promotion = models.ForeignKey(Promotion, on_delete=models.SET_NULL, null=True)
+    brands = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
+    business = models.ForeignKey(Business, on_delete=models.SET_NULL, null=True)
     is_tracking = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
-    # on_offer = models.BooleanField(default=False)
-    # offer_start_date = models.DateField(verbose_name="Offer start date", null=True)
-    # offer_end_date = models.DateField(verbose_name="Offer end date", null=True)
-    # offer_discount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     mnf_date = models.DateField(verbose_name="Manufactured date", null=True)
     exp_date = models.DateField(verbose_name="Expiry date", null=True)
     is_deleted = models.BooleanField(default=False)
