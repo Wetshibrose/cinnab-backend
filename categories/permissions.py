@@ -1,3 +1,4 @@
+
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 # rest requests,response
@@ -13,7 +14,7 @@ from businesses.models import Business
 
 class CategoriesPermissions(BasePermission):
     message = "You don't have permissions to edit categories"
-    
+
     def has_object_permission(self, request, view, obj:Category):
         if request.method in SAFE_METHODS:
             return True
