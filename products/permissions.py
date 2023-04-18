@@ -13,7 +13,7 @@ from businesses.models import Business
 
 class ProductsPermissions(BasePermission):
     message = "You don't have permissions to edit products"
-    
+
     def has_object_permission(self, request, view, obj:Product):
         if request.method in SAFE_METHODS:
             return True
