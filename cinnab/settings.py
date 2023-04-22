@@ -30,10 +30,10 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "ads.apps.AdsConfig",
     "authentication.apps.AuthenticationConfig",
+    "brands.apps.BrandsConfig",
     "businesses.apps.BusinessesConfig",
     "categories.apps.CategoriesConfig",
     "currencies.apps.CurrenciesConfig",
-    "customers.apps.CustomersConfig",
     "faqs.apps.FaqsConfig",
     "languages.apps.LanguagesConfig",
     "locations.apps.LocationsConfig",
@@ -74,6 +74,9 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ]
 }
 
 # simple jwt settings

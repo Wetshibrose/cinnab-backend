@@ -47,8 +47,19 @@ class CustomUserManager(BaseUserManager):
 
 class GenderType(models.Model):
     class Meta:
-        verbose_name_plural = "genders"
+        default_related_name = "genders"
+        indexes = [
+            models.Index(fields=["id", "name"])
+        ]
         ordering = ["name"]
+        permissions = (
+            ("can_view_gender", "Can view gender"),
+            ("can_add_gender", "Can add gender"),
+            ("can_edit_gender", "Can edit gender"),
+            ("can_delete_gender", "Can delete gender"),
+        )
+        verbose_name = "gender"
+        verbose_name_plural = "genders"
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=100)
     is_deleted = models.BooleanField(default=False)
@@ -62,8 +73,19 @@ class GenderType(models.Model):
 
 class User(AbstractUser):
     class Meta:
+        default_related_name = "users"
+        indexes = [
+            models.Index(fields=["id", "phone_number"])
+        ]
+        ordering = ["email",]
+        permissions = (
+            ("can_view_user", "Can view user"),
+            ("can_add_user", "Can add user"),
+            ("can_edit_user", "Can edit user"),
+            ("can_delete_user", "Can delete user"),
+        )
+        verbose_name = "user"
         verbose_name_plural = "users"
-        ordering = ["email"]
 
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
     email = models.EmailField(max_length=100, unique=True)
@@ -93,8 +115,13 @@ class User(AbstractUser):
 
 class ProfilePicture(models.Model):
     class Meta:
-        verbose_name_plural = "profile pictures"
+        default_related_name = "profile_pictures"
+        indexes = [
+            models.Index(fields=["id"])
+        ]
         ordering = ["-date_created"]
+        verbose_name = "profile picture"
+        verbose_name_plural = "profile pictures"
 
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
     url = models.URLField(verbose_name="url photo", blank=True, null=True)

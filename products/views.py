@@ -8,6 +8,7 @@ from rest_framework import status
 # permission and authentication classes
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .permissions import ProductsPermissions
 
 # serializers
 from .serializers import (
@@ -25,13 +26,18 @@ from .models import (
 # utility functions
 from .utility_func import jwt_authentication
 
+# filters
+from .filters import ProductFilters
+
 
 '''
     => PRODUCTS VIEWS SECTION
 '''
 
 class RetrieveProductsAPIView(APIView):
+    permission_classes = [ProductsPermissions,]
     authentication_classes = [JWTAuthentication]
+    filter_class = ProductFilters
 
     def get(self, request:Request, *args, **kwargs):
         response = jwt_authentication(req=request)
@@ -42,11 +48,13 @@ class RetrieveProductsAPIView(APIView):
         if not products:
             return Response([], status=status.HTTP_200_OK)
         
-        serializer = ProductsSerializer(products, many=True)
+        filtered_products = self.filter_class(request.query_params, queryset=products).qs
+        serializer = ProductsSerializer(filtered_products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
 class RetrieveProductAPIView(APIView):
+    permission_classes = [ProductsPermissions,]
     authentication_classes = [JWTAuthentication]
 
     def get(self, request:Request, product_id:str, *args, **kwargs):
@@ -68,6 +76,7 @@ class RetrieveProductAPIView(APIView):
     
 
 class CreateProductAPIView(APIView):
+    permission_classes = [ProductsPermissions,]
     authentication_classes = [JWTAuthentication]
 
     def post(self, request:Request, *args, **kwargs):
@@ -90,6 +99,7 @@ class CreateProductAPIView(APIView):
         
 
 class EditProductAPIView(APIView):
+    permission_classes = [ProductsPermissions,]
     authentication_classes = [JWTAuthentication]
 
     def post(self, request:Request, *args, **kwargs):
@@ -104,6 +114,7 @@ class EditProductAPIView(APIView):
         
 
 class DeleteProductAPIView(APIView):
+    permission_classes = [ProductsPermissions,]
     authentication_classes = [JWTAuthentication]
 
     def delete(self, request:Request, product_id:str, *args, **kwargs):
