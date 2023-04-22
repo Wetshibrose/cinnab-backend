@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     "businesses.apps.BusinessesConfig",
     "categories.apps.CategoriesConfig",
     "currencies.apps.CurrenciesConfig",
-    "customers.apps.CustomersConfig",
     "faqs.apps.FaqsConfig",
     "languages.apps.LanguagesConfig",
     "locations.apps.LocationsConfig",
