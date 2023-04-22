@@ -24,6 +24,7 @@ from .serializers import (
 
 # models
 from .models import GenderType, User, ProfilePicture
+from django.contrib.auth.models import Group
 
 # class types
 from .base_types import ErrorMessageResponse, SuccessMessageResponse
@@ -82,19 +83,30 @@ class CreateUserAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
         
         data:dict = serializer.validated_data
-        new_user:User = User.objects.create_user(
-            phone_number=data["phone_number"],
-            username= make_username(value=data["email"]),
+        try:
+            role = Group.objects.get(id=data.get("role"))
+        except Group.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            new_user:User = User.objects.create_user(
+                phone_number=data["phone_number"],
+                username= make_username(value=data["email"]),
 
 
-            email = data.get("email"),
-            gender = data.get("gender"),
-            first_name = data.get("first_name"),
-            last_name = data.get("last_name"),
-            date_of_birth = datetime.strptime(data.get("date_of_birth"), "%Y-%m-%d").date() if data["date_of_birth"] else None,
-            password=make_password(password=data.get("password"))
-        )
-        new_user.save()
+                email = data.get("email"),
+                gender = data.get("gender"),
+                first_name = data.get("first_name"),
+                last_name = data.get("last_name"),
+                date_of_birth = datetime.strptime(data.get("date_of_birth"), "%Y-%m-%d").date() if data["date_of_birth"] else None,
+                password=make_password(password=data.get("password"))
+            )
+
+            new_user.groups.add(role)
+            new_user.save()
+
+        except Exception as e:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         serializer = UserSerializer(new_user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
