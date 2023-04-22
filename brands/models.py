@@ -14,13 +14,20 @@ class Brand(models.Model):
             models.Index(fields=["id", "name"])
         ]
         ordering = ["name"]
+        permissions = (
+            ("can_view_brand", "Can view brand"),
+            ("can_add_brand", "Can add brand"),
+            ("can_edit_brand", "Can edit brand"),
+            ("can_delete_brand", "Can delete brand"),
+        )
         verbose_name = "brand"
         verbose_name_plural = "brands"
+
 
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=100)
     description = models.TextField(null=True)
-    business = models.ForeignKey(Business, on_delete=models.SET_NULL, null=True)
+    business = models.ManyToManyField(Business,blank=True)
     is_published = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now)
